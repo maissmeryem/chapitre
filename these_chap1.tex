@@ -1,0 +1,103 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+
+\title{Méthodes numériques pour la simulation d'écoulements des gaz raréfiés}
+\author{Doctorant}
+\date{2025}
+
+\begin{document}
+	\maketitle
+	
+	\chapter{Cadre théorique et modélisation des gaz raréfiés}
+	
+	\section{Introduction}
+	
+	L’étude des écoulements de gaz raréfiés constitue un domaine central de la mécanique des fluides, en particulier pour les applications en aérodynamique spatiale, les micro- et nano-systèmes, ainsi que dans les procédés industriels impliquant des gaz à basse pression \cite{cercignani1988, sone2007}. Contrairement aux écoulements continus, où les équations de Navier-Stokes fournissent une description adéquate, les écoulements de gaz raréfiés requièrent une approche cinétique, en raison de l’importance des effets moléculaires \cite{chapman1970, bird1994}.
+	
+	La simulation numérique constitue un outil indispensable pour prédire et analyser le comportement des gaz rares, permettant de tester des hypothèses théoriques, d’optimiser des configurations expérimentales et de prévoir des phénomènes complexes tels que la transition entre régimes continuum et libre cheminement moléculaire \cite{garcia1999, boyd1995}.
+	
+	\section{Les régimes d’écoulement des gaz}
+	
+	La caractérisation des régimes d’écoulement d’un gaz se fait généralement à l’aide du nombre de Knudsen $Kn$, défini par :
+	\begin{equation}
+		Kn = \frac{\lambda}{L}
+	\end{equation}
+	
+	où $\lambda$ est le libre parcours moyen des molécules et $L$ une longueur caractéristique du système \cite{cercignani1988, karniadakis2005}. On distingue principalement trois régimes :
+	
+	\begin{itemize}
+		\item Régime continuum ($Kn < 0.01$) : Les effets moléculaires sont négligeables et les équations de Navier-Stokes peuvent être appliquées avec des conditions aux limites classiques \cite{cercignani1988}.
+		\item Régime intermédiaire ($0.01 < Kn < 0.1$) : Les effets moléculaires deviennent significatifs, et des modèles hybrides ou des corrections de type slip sont nécessaires \cite{karniadakis2005, hadjiconstantinou2003}.
+		\item Régime libre ($Kn > 0.1$) : Les collisions entre molécules sont rares par rapport aux interactions avec les parois, rendant obligatoire l’utilisation des équations cinétiques pour une description précise \cite{sone2007, garcia1999}.
+	\end{itemize}
+	
+	\section{Modèles cinétiques pour les gaz raréfiés}
+	
+	La description cinétique des gaz repose sur la fonction de distribution de Boltzmann $f(x,v,t)$, qui donne la probabilité de trouver une molécule à la position $x$ avec une vitesse $v$ à l’instant $t$ \cite{chapman1970}. L’équation de Boltzmann s’écrit comme suit :
+	\begin{equation}
+		\frac{\partial f}{\partial t} + v \cdot \nabla_x f + F \cdot \nabla_v f = \left( \frac{\partial f}{\partial t} \right)_{coll}
+	\end{equation}
+	
+	où $F$ représente les forces externes agissant sur les molécules et le terme de collision $(\partial f / \partial t)_{coll}$ modélise les interactions moléculaires \cite{chapman1970, bird1994}.
+	
+	Les modèles simplifiés comprennent :
+	\begin{itemize}
+		\item Modèle BGK (Bhatnagar-Gross-Krook) : approximation du terme de collision par un retour vers une distribution locale d’équilibre \cite{bird1994, holway1966}.
+		\item Modèle ES-BGK (Ellipsoidal Statistical BGK) : capture améliorée des effets de viscosité et de conductivité thermique \cite{holway1966}.
+		\item Méthode DSMC (Direct Simulation Monte Carlo) : approche particulaire stochastique pour les écoulements fortement raréfiés \cite{garcia1999, boyd1995}.
+	\end{itemize}
+	
+	\section{Méthodes numériques pour la résolution}
+	
+	\subsection{Méthodes déterministes}
+	\begin{itemize}
+		\item Discrétisation des vitesses (DVM – Discrete Velocity Method) sur des grilles spatiales et temporelles \cite{rogallo1994}.
+		\item Schémas aux différences finies ou volumes finis pour les modèles BGK/ES-BGK \cite{bird1994, holway1966}.
+	\end{itemize}
+	
+	\subsection{Méthodes stochastiques}
+	\begin{itemize}
+		\item DSMC, simulant directement les trajectoires et collisions moléculaires \cite{garcia1999, boyd1995}.
+		\item Particulièrement adaptée aux régimes libres ou aux géométries complexes.
+	\end{itemize}
+	
+	Exemple de discrétisation implicite BGK :
+	\begin{equation}
+		\frac{f^{n+1} - f^n}{\Delta t} + v \cdot \nabla_x f^n = -\frac{1}{\tau} (f^{n+1} - f^{eq})
+	\end{equation}
+	
+	\section{Applications et enjeux}
+	
+	La modélisation et la simulation des gaz raréfiés permettent :
+	\begin{itemize}
+		\item Conception de micro-pompes et micro-canaux pour la microfluidique \cite{karniadakis2005, sone2007}.
+		\item Prédiction du comportement des écoulements autour de véhicules spatiaux ou sondes atmosphériques à haute altitude \cite{cercignani1988, garcia1999}.
+		\item Analyse des transferts thermiques dans des régimes non continus \cite{boyd1995, hadjiconstantinou2003}.
+	\end{itemize}
+	fhfssh
+	Les défis majeurs résident dans la précision des modèles cinétiques, la stabilité des schémas numériques et la gestion du coût computationnel \cite{bird1994, rogallo1994}.
+	
+	\section{Conclusion}
+	
+	Ce chapitre a présenté le cadre théorique nécessaire à l’étude des écoulements de gaz raréfiés. La maîtrise de ces concepts constitue la base indispensable pour le développement et l’implémentation de codes Fortran pour la simulation efficace et précise de ces écoulements.
+	
+	\begin{thebibliography}{99}
+		\bibitem{cercignani1988} C. Cercignani, \textit{The Boltzmann Equation and Its Applications}, Springer, 1988.
+		\bibitem{sone2007} Y. Sone, \textit{Molecular Gas Dynamics}, Birkhäuser, 2007.
+		\bibitem{chapman1970} S. Chapman, T.G. Cowling, \textit{The Mathematical Theory of Non-Uniform Gases}, Cambridge University Press, 1970.
+		\bibitem{bird1994} G.A. Bird, \textit{Molecular Gas Dynamics and the Direct Simulation of Gas Flows}, Oxford University Press, 1994.
+		\bibitem{garcia1999} A.L. Garcia et al., \textit{Direct Simulation Monte Carlo: Recent Advances}, J. Comput. Phys., 1999.
+		\bibitem{boyd1995} I.D. Boyd, G. Chen, G.V. Candler, \textit{Predicting Rarefied Hypersonic Flows Using DSMC}, J. Thermophys. Heat Transfer, 1995.
+		\bibitem{karniadakis2005} G. Karniadakis, A. Beskok, N. Aluru, \textit{Microflows and Nanoflows}, Springer, 2005.
+		\bibitem{hadjiconstantinou2003} N.G. Hadjiconstantinou, \textit{The Limits of Navier-Stokes Theory for Microflows}, Phys. Fluids, 2003.
+		\bibitem{holway1966} L.H. Holway, \textit{New Statistical Models for the Boltzmann Equation}, Phys. Fluids, 1966.
+		\bibitem{rogallo1994} R.S. Rogallo, R.D. Moser, \textit{Numerical Methods for Rarefied Gas Dynamics}, Annu. Rev. Fluid Mech., 1994.
+	\end{thebibliography}
+	
+\end{document}
+hii hii 
+
